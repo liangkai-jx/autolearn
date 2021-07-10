@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主视频修改</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script src="../layui/layui.js" charset="utf-8"></script>
+    <script>
+        function updaMainVideo() {
+            if($('#subvideoname').val()==""||$('#videointroduction').val()==""){
+                layer.msg('主视频名称或简介不为空');
+            }else{
+                $.ajax({
+                    async:false,  //同步
+                    type:"post",
+                    url:"updaMainVideo",
+                    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                    data:$('#mainvideoInfobean').serialize(),
+                    dataType:"json",
+                    success:function(message){
+                        layer.msg('修改成功');
+                        setTimeout(function(){
+                            location.reload();
+                        },1500);
+                    },
+                    error:function(){
+                        layer.msg('系统维护中！！！！');
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body><br>
+<form id="mainvideoInfobean">
+    <input type="hidden" id="id" name="id" th:value="${mainvideo.id}"><br>
+    <p>&nbsp;&nbsp;主视频名称：</p>
+    <input type="text" id="mainvideoname" name="mainvideoname" class="layui-input" th:value="${mainvideo.mainvideoname}"><br><br>
+    <p>&nbsp;&nbsp;主视频简介：</p>
+    <textarea placeholder="请输入内容" class="layui-textarea" id="videointroduction" name="videointroduction" th:text="${mainvideo.videointroduction}"></textarea>
+</form>
+<div align="center"><br><br>
+    <button class="layui-btn" onclick="updaMainVideo()">修改</button>
+</div>
+</body>
+</html>

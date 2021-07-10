@@ -1,0 +1,550 @@
+/*全局样式*/
+*{margin: 0px; padding: 0px;}
+/*把默认的下划线去掉*/
+a{text-decoration: none;}
+/*在IE低版下面所有的图片都会有一个默认的边框*/
+img{border:none;}
+/*去掉li自带的默认小圆点*/
+li{list-style: none;}
+
+/*给body下面所有字体去设置字型*/
+body{
+	font-family: "微软雅黑"; /*height: 5000px;*/
+}
+/*头部样式*/
+.header-bg{
+	/*通栏去继承body, 100%*/
+	width:100%; 
+	height: 64px;
+	border-bottom:2px solid  #3bb149 ;
+}
+.header{
+	width: 1400px;
+	height: 64px;
+	/*background: red;*/
+	/*把这个盒子左右居中,前提条件是必须此元素有宽度*/
+	margin:0 auto;
+	
+}
+.logo{
+	width:300px; height: 64px; 
+	/*这个属性为了能让.nav元素站成一排*/
+	float:left;
+}
+.logo img{
+	float:left;
+}
+.nav{
+	/*这个属性为了能让自己 站成一排*/
+	float:left;
+	/*设置一个左边距*/
+	margin-left: 40px;
+}
+.nav li{
+	float:left;
+	/*设置li元素两边有外边距*/
+	margin: 0 30px;
+	/*设置行高,可以让字体上下居中*/
+	line-height: 64px;
+	font-size: 14px;
+	
+}
+.nav li a{
+	/*设置字体颜色,如是a标签,那么一定要在a标签里面来设置,因为它自学默认样式*/
+	
+	/*给此元素加一个过渡动画*/
+	transition: 0.5s;
+}
+/*给当前页面加不同的样式*/
+.nav .nav-active a{
+	color:#e03f26;
+}
+/*鼠标移入li标签样式*/
+.nav li a:hover{
+	color:#e03f26;
+}
+
+.header-right{
+	float:right;
+}
+.header-right a{
+	/*设置浮动属性是为了让行内元素可以设置宽高*/
+	float:left;
+	width:55px; height: 30px;
+	font-size: 14px;
+	color:#fff;
+	/*上下居中*/
+	line-height: 30px;
+	/*文本左右居中*/
+	text-align: center;
+}
+.header-right .login{
+	background: #e03f26;
+	/*两个中间有小间隙*/
+	margin-right: 2px;
+	margin-top:17px;
+	/*设置圆角属性*/
+	border-radius: 5px 0px 0px 5px;
+}
+.header-right .register{
+	background: #bc3c28;
+	margin-top:17px;
+	/*设置圆角属性*/
+	border-radius: 0px 5px 5px 0px;
+}
+
+/*banner 样式*/
+.banner{
+	width:100%; height: 450px;
+	/*溢出隐藏*/
+	overflow: hidden;
+	/*位置参照*/
+	position: relative;
+}
+
+.banner ul li{
+	/*定位把图片叠加到一起*/
+	position: absolute; 
+	left:50%; top:0px;
+	margin-left:-960px;
+}
+.banner ul li a img{
+	float:left;
+}
+
+.banner .yuan{
+	/*width:200px; height: 30px;*/ /*background: red;*/
+	/*定位后显示此元素*/
+	position: absolute;
+	left:50%; bottom:20px;
+	margin-left:-60px;
+}
+.banner .yuan span{
+	width:10px; height: 10px; border: 2px solid #fff;
+	float:left;
+	/*倒圆角属性*/
+	border-radius: 5px;
+	margin:0px 5px;
+}
+.banner .yuan .yuan-active{
+	background: #fff;
+}
+/*设置左右方向样式*/
+.prev{
+	width:17px; height: 28px;
+	/*background-color:gray;*/
+	background-image:url(../img/prev.png);
+	/*float 设置宽度， 有定位属性也可以设置宽高*/
+	position: absolute;
+	left:50%; margin-left:-600px;
+	top:50%; margin-top:-14px;
+}
+.prev:hover{
+	/*rgba 设置颜色，rgb为三原色，a为透明  有兼容问题*/
+	background-color:rgba(0, 0, 0, 0.5)
+}
+.next{
+	width:17px; height: 28px;
+	/*background-color:gray;*/
+	background-image:url(../img/next.png);
+	/*float 设置宽度， 有定位属性也可以设置宽高*/
+	position: absolute;
+	right:50%; margin-right:-600px;
+	top:50%; margin-top:-14px;
+}
+.next:hover{
+	/*rgba 设置颜色，rgb为三原色，a为透明  有兼容问题*/
+	background-color:rgba(0, 0, 0, 0.5)
+}
+.allCourses{
+	width:1400px;
+	margin: 30px auto 10px auto;
+
+}
+.kaoyan-m img{
+	width: 430px;
+	height: 241px;
+}
+.allCourses .allfl{
+	border-top:1px solid  #919191;
+	border-right:1px solid  #919191;
+	border-left:1px solid  #919191;
+	border-bottom:1px dashed  #919191;
+}
+.allCourses .allf2{
+	height: 481px;
+	border-bottom:1px dashed  #919191;
+}
+.allCourses .allf3{
+	height: 481px;
+}
+.allCourses .allf3 .nr{
+	width: 1000px;
+	float: left;
+	border-bottom:1px dashed  #919191;
+}
+.allCourses .tr{
+	height: 481px;
+}
+.allCourses .br{
+	width: 1400px;
+	float: left;
+}
+.allCourses .br ul{
+	float: left;
+	border-bottom:1px dashed  #919191;
+}
+.allCourses .br li{
+	float: left;
+	width: 435px;
+	height: 200px;
+}
+.allCourses .br img{
+	width: 400px;
+	height: 200px;
+}
+.allCourses p{
+	margin: 10px 10px 10px;
+}
+.allCourses .alllb{
+	width:1400px;height: 60px;
+
+}
+.allCourses ul{
+	/*这个属性为了能让自己 站成一排*/
+	float:left;
+	/*设置一个左边距*/
+}
+.allCourses li{
+	float: left;
+	margin: 10px 10px 10px;
+}
+.allCourses .leftli{
+	margin: 10px 10px 10px 40px;
+}
+.allCourses a{
+	margin: 10px 10px 10px;
+}
+/*考研通关*/
+.kaoyan{
+	width:1400px;
+	margin: 0 auto;
+	/*background: red;*/
+}
+.title{
+	width:1400px; height: 90px;
+	/*background: pink;*/
+	
+	/*设置上内边距,把内容往下挤*/
+	padding-top:70px;
+}
+.title h1{
+	font-size: 28px; color:#333;
+	/*在正常 文档流里,如果内部元素设置上外边距,父级会跟着一起移动*/
+	/*margin-top:70px;*/
+	line-height: 42px;
+}
+.title p{
+	/*font-size: 16px;*/ color: #666;
+	line-height: 34px;
+}
+
+
+.kaoyan-m{
+	width:1400px;
+	float:left;
+	/*background: yellowgreen;*/
+}
+.kaoyan-m ul li{
+	float:left;
+	/*给每个li设置一个右外边距*/
+	margin-right:48px;
+}
+.kaoyan ul .on-margin{
+	margin-right: 0px;
+}
+.kaoyan ul .seek-margin{
+	margin-right: 36px;
+}
+.kaoyan-m img{
+	width: 430px;
+}
+
+/*样式同写*/
+.kaoyan ul li h2, .hot-up h3{
+	font-size: 18px; color: #333;
+	line-height: 36px;
+}
+.kaoyan ul li p, .hot-up li p{
+	font-size: 14px; color: #666;
+	line-height: 24px;
+}
+.kaoyan-down{
+	width: 1200px; height: 112px;
+	/*background: orange;*/
+}
+/*热门课程样式*/
+.hot{
+	width:1200px; height: 800px;
+	margin: 0 auto;
+	/*background: pink;*/
+}
+.hot-up{
+	width:1200px; height: 410px;
+	/*background: gray;*/
+}
+.hot-up li{
+	width: 564px;
+	float:left;
+	border: 1px solid #ccc;
+	padding:10px 10px 20px;
+}
+.hot-up li img{
+	border: 1px solid #ccc;
+}
+.hot-up .right{
+	float:right;
+}
+.more{
+	width:1200px; height: 57px;
+	/*background: yellow;*/
+	/*把更多挤下去*/
+	padding-top:23px;
+}
+.more a{
+	width:130px; height: 32px;
+	float:right;
+	border: 1px solid #e03f26;
+	border-radius: 16px;
+	color:#e03f26;
+	line-height: 32px;
+	font-size: 14px;
+	padding-left:30px;
+	background: url(../img/hot_bg05.png) no-repeat 130px 0px;
+}
+.more a:hover{
+	/*border: 1px solid yellow;*/
+	/*加一个阴影*/
+	box-shadow: 2px 2px 4px #e03f26;
+}
+.hot-down{
+	width:1200px; height: 150px;
+	/*background:hotpink;*/
+}
+/*body,html{background: red;}*/
+.hot-down div{
+	height: 70px;
+	float:left;
+	color:#fff;
+	text-align: center;
+	line-height: 70px;
+	margin-right: 10px;
+	/*设置元素透明度,取值范围0-1之间，0看不见，默认为1看得见*/
+	opacity: 0.8;
+	/*设置过渡动画*/
+	transition: 0.3s;
+}
+/*当鼠标放上去的时候，改变透明度*/
+.hot-down div:hover{
+	opacity: 1;
+}
+.hot-down .hot-down-01{
+	height: 50px;
+	width:150px;
+	line-height: 16px;
+	background-color: #FF6F4F;
+	background-image: url(../img/hot_bg01.png);
+	background-repeat: no-repeat;
+	background-position: center 24px;
+	padding-top:100px;
+}
+.hot-down .hot-down-02{
+	width:150px;
+	background: #62C7A9;
+}
+.hot-down .hot-down-03{
+	width:150px;
+	background: #E4C09A;
+}
+.hot-down .hot-down-04{
+	width:500px;
+	background: #4DB1D2 url(../img/hot_bg02.png) no-repeat 190px 24px;
+}
+.hot-down .hot-down-05{
+	width:210px;
+	background: #FFA963;
+}
+.hot-down .hot-down-06{
+	width:250px;
+	background: #6C6C6C url(../img/hot_bg03.png) no-repeat 50px 23px;
+}
+.hot-down .hot-down-07{
+	width:190px;
+	background: #87CCC5;
+}
+.hot-down .hot-down-08{
+	width:210px;
+	background: #FF8C75;
+}
+.hot-down .hot-down-09{
+	width:360px;
+	background: #5E86BC;
+	/*最后一个留给你们去自己添加*/
+}
+/*样式同写*/
+.hot-down .hot-down-05, .hot-down .hot-down-09{
+	margin-right: 0px;
+}
+.hot-down .hot-down-02, .hot-down .hot-down-03, .hot-down .hot-down-04, .hot-down .hot-down-05{
+	margin-bottom: 10px;
+}
+
+/*试听专区*/
+.audition{
+	width:1202px; height: 714px;
+	margin: 0 auto;
+}
+.college{
+	width:1200px; height: 474px;
+	border: 1px solid #eee;
+}
+.college ul li{
+	width:238px; height: 215px;
+	border: 1px solid #eee;
+	float:left;
+	/*内容左右居中*/
+	text-align: center;
+	/*把内容从上面往下挤*/
+	padding-top:20px;
+}
+.college ul li h4{
+	/*font-size: 16px;*/
+	/*不加粗*/
+	font-weight: normal;
+	line-height: 36px;
+	color:#000;
+}
+.college ul li p{
+	color: red;
+	font-size: 14px;
+}
+.college ul li:hover{
+	background: url(../img/audition-answer.png) no-repeat;
+}
+
+/*产品服务*/
+.product{
+	width:1200px; height: 620px;
+	margin: 0 auto;
+}
+.pro-down{
+	width:1196px; height: 412px;
+	border: 2px solid #666;
+}
+.pro-down ul li{
+	width:300px;
+	padding: 0px 10px;
+	/*左右居中*/
+	text-align: center;
+	padding-top:30px;
+	float: left;
+	margin-right: 118px;
+	
+	
+}
+.pro-down .pro-margin{
+	margin-right: 0px;
+}
+.pro-down ul li img{
+	border: 1px solid #6C6C6C;
+	border-radius: 50%;
+	/*过渡动画*/
+	transition: 0.5s;
+}
+.pro-down ul li h1{
+	font-size: 26px;
+	color: #333;
+	font-weight: normal;
+	line-height: 60px;
+}
+.pro-down ul li p{
+	font-size: 14px;
+	color: #666;
+	line-height: 26px;
+}
+.pro-down ul li:hover img{
+	/*设置旋转*/
+	transform: rotate(-360deg);
+}
+/*底部样式*/
+.footer-bg{
+	width:100%;
+	float: left;
+	background: #2e2e2e;
+}
+.footer{
+	width:1145px; height: 203px;
+	/*background: pink;*/
+	margin: 0 auto;
+	/*性能维护*/
+	padding:50px 0 0 52px;
+	/*padding-top:60px;*/
+}
+.footer ul{
+	float:left;
+}
+.footer ul li{
+	height: 46px; width:152px;
+}
+.footer ul li h2{
+	font-size: 14px; color: #fff;
+	font-weight: normal;
+}
+.footer ul li a{
+	font-size: 12px;
+	color: #c1c1c1;
+	transition: 0.5s;
+}
+.footer ul li a:hover{
+	color:#e03f26;
+}
+.footer-logo{
+	width:251px; height: 183px;
+	/*background: pink;*/
+	float:left;
+	padding-top:20px;
+}
+.footer-logo-img{
+	width:251px; height: 61px;
+	margin-bottom: 30px;
+}
+
+.footer-logo img{
+	float: left;
+}
+.friend-link a img{
+	margin: 0 11px;
+}
+
+/*版权*/
+.copy{
+	width:100%;
+	float: left;
+	background: #212121;
+	text-align: center;
+	font-size: 12px;
+	color: #c1c1c1;
+	padding-top:20px;
+}
+.copy p{
+	line-height: 30px;
+}
+/*预处理视频目录css*/
+.videoCatalogue{
+	margin-bottom: 20px;
+}
+.usershow img{
+	max-width:1300px;
+	width:expression(document.body.clientWidth>1300?"1300px":"auto");
+	overflow:hidden;
+}

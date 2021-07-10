@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layPage快速使用</title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+</head>
+<body>
+<div class="kaoyan">
+    <!--中间部份-->
+    <div class="kaoyan-m">
+        <ul id="biuuu_city_list">
+
+        </ul>
+    </div>
+    <div id="demo1"></div>
+</div>
+
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script>
+
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //将一段数组分页展示
+        //测试数据
+        var data=['1','2','3','4','5','6','7','8','9','1','2','3','4','5','6','7','8','9'];
+
+
+        //总页数大于页码总数
+        laypage.render({
+            elem: 'demo1'
+            ,count: data.length //数据总数
+            ,limit:9
+            ,jump: function(obj){
+                //模拟渲染
+                document.getElementById('biuuu_city_list').innerHTML = function(){
+                    var arr = []
+                        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push('<li><a >'+ item +'</a></li>');
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+    });
+</script>
+</body>
+</html>

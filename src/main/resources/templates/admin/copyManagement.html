@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网站信息管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script src="../layui/layui.js" charset="utf-8"></script>
+    <script>
+        function updatecopy() {
+            if($('#copyright').val()==""||$('#zsInfo').val()==""){
+                layer.msg('版权信息或注释不为空');
+            }else{
+                $.ajax({
+                    async:false,  //同步
+                    type:"post",
+                    url:"updatecopy",
+                    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                    data:$('#copyrightinfobean').serialize(),
+                    dataType:"json",
+                    success:function(message){
+                        layer.msg('修改成功');
+                        setTimeout(function(){
+                            location.reload();
+                        },1500);
+                    },
+                    error:function(){
+                        layer.msg('系统维护中！！！！');
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body><br>
+<form id="copyrightinfobean">
+    <input type="hidden" id="id" name="id">
+    <p>&nbsp;&nbsp;网站版权信息：</p>
+    <input type="text" id="copyright" name="copyright" class="layui-input"><br>
+    <p>&nbsp;&nbsp;网站注释信息：</p>
+    <input type="text" id="zsInfo" name="zsInfo" class="layui-input"><br><br>
+</form>
+<div align="center">
+    <button class="layui-btn" onclick="updatecopy()">修改</button>
+</div>
+
+<script>
+    $(function(){
+        $.ajax({
+            async:false,  //同步
+            type:"post",
+            url:"getcopyright",
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            dataType:"json",
+            success:function(message){
+                $('#id').val(message.id);
+                $('#copyright').val(message.copyright);
+                $('#zsInfo').val(message.zsInfo);
+            },
+            error:function(){
+                layer.msg('系统维护中！！！！');
+            }
+        });
+    });
+</script>
+</body>
+</html>

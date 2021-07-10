@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主视频管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/main.css" />
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script>
+        function openMainVideoAdd() {
+            layer.open({
+                type : 2,
+                title:'添加主视频',
+                area : [ '700px', '500px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/admin/MainVideoAdd',
+                end:function(){
+                    location.reload();
+                }
+            });
+        };
+        function openMainVideoUpdate(id) {
+            layer.open({
+                type : 2,
+                title:'子视频信息修改',
+                area : [ '400px', '400px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/admin/MainVideoUpdate?id='+id,
+                end:function(){
+                    location.reload();
+                }
+            });
+        };
+        function delmainVideo(id,coveraddress) {
+            $.ajax({
+                async:false,  //同步
+                type:"post",
+                url:"delmainVideo",
+                contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                data:{
+                    id:id,
+                    coveraddress:coveraddress
+                },
+                dataType:"json",
+                success:function(message){
+                    layer.msg('删除成功');
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                },
+                error:function(){
+                    layer.msg('系统维护中！！！！');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<br>
+<div>
+    <ul>
+        <li>
+            &nbsp;<input type="button" class="layui-btn"  value="添加" onclick="openMainVideoAdd()"></input>
+        </li>
+    </ul>
+</div><br>
+<div>
+    <table class="table_t" cellpadding="0" cellspacing="0" border="0">
+        <thead>
+        <tr>
+            <th style="border-left: 1px solid #ddd;">主视频名称</th>
+            <th>封面图</th>
+            <th>主视频简介</th>
+            <th>关注数</th>
+            <th>相关操作</th>
+        </tr>
+        </thead>
+        <tbody align="center" id="biuuu_city_list">
+
+        </tbody>
+    </table>
+</div>
+<div id="demo1"class="kaoyan-m"></div>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    //分页
+    var data;
+    $(function(){
+        $.ajax({
+            async:false,  //同步
+            type:"post",
+            url:"getmainvideoinfo",
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            dataType:"json",
+            success:function(message){
+                data=message;
+            },
+            error:function(){
+                layer.msg('系统维护中！！！！');
+            }
+        });
+    });
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //总页数大于页码总数
+        laypage.render({
+            elem: 'demo1'
+            ,count: data.length //数据总数
+            ,limit:4
+            ,jump: function(obj){
+                //渲染
+                document.getElementById('biuuu_city_list').innerHTML = function(){
+                    var arr = []
+                        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push('<tr ><td>'+item.mainvideoname+'</td><td><img src="'+item.coveraddress+'" style="width:200px; height: 100px"></td><td style="width: 300px;word-wrap:break-word;word-break:normal; ">'+item.videointroduction+'</td><td>'+item.gzNum+'</td><td><button onclick="openMainVideoUpdate('+item.id+')" class="layui-btn">修改</button><button onclick="delmainVideo('+item.id+',\''+item.coveraddress+'\')" class="layui-btn">删除</button></td></tr>');
+                    });
+                    return arr.join('');
+                }();
+
+            }
+        });
+    });
+</script>
+</body>
+</html>

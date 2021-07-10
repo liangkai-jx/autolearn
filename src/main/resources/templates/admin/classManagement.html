@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>类管别理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/main.css" />
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script>
+        function addclass() {
+            if($('#classname').val()==""){
+                layer.msg('类别不为空');
+            }else{
+                $.ajax({
+                    async:false,  //同步
+                    type:"post",
+                    url:"addclass",
+                    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                    data:{
+                        classname:$('#classname').val()
+                    },
+                    dataType:"json",
+                    success:function(message){
+                        layer.msg('添加成功');
+                        setTimeout(function(){
+                            location.reload();
+                        },1500);
+                    },
+                    error:function(){
+                        layer.msg('系统维护中！！！！');
+                    }
+                });
+            }
+        }
+        function delclass(id) {
+            $.ajax({
+                async:false,  //同步
+                type:"post",
+                url:"delclass",
+                contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                data:{
+                    id:id
+                },
+                dataType:"json",
+                success:function(message){
+                    layer.msg('删除成功');
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                },
+                error:function(){
+                    layer.msg('系统维护中！！！！');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<br>
+<div>
+    <ul>
+        <li>
+            &nbsp;&nbsp;<input type="text" id="classname"  placeholder="请输入类别" >
+            <input type="button" class="layui-btn"  value="添加" onclick="addclass()"></input>
+        </li>
+    </ul>
+</div><br>
+<div>
+    <table class="table_t" cellpadding="0" cellspacing="0" border="0">
+        <thead>
+        <tr>
+            <th style="border-left: 1px solid #ddd;">ID</th>
+            <th>类别名称</th>
+            <th>相关操作</th>
+        </tr>
+        </thead>
+        <tbody align="center" id="biuuu_city_list">
+
+        </tbody>
+    </table>
+</div>
+<div id="demo1"class="kaoyan-m"></div>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    //分页
+    var data;
+    $(function(){
+        $.ajax({
+            async:false,  //同步
+            type:"post",
+            url:"getclassinfo",
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            dataType:"json",
+            success:function(message){
+                data=message;
+            },
+            error:function(){
+                layer.msg('系统维护中！！！！');
+            }
+        });
+    });
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //总页数大于页码总数
+        laypage.render({
+            elem: 'demo1'
+            ,count: data.length //数据总数
+            ,limit:20
+            ,jump: function(obj){
+                //渲染
+                document.getElementById('biuuu_city_list').innerHTML = function(){
+                    var arr = []
+                        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push('<tr ><td>'+item.id+'</td><td>'+item.classname+'</td><td><button onclick="delclass('+item.id+')" class="layui-btn">删除</button></td></tr>');
+                    });
+                    return arr.join('');
+                }();
+
+            }
+        });
+    });
+</script>
+</body>
+</html>

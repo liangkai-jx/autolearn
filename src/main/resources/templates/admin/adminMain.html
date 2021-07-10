@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超级管理员主界面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../css/index.css" />
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script>
+        function openperInfo() {
+            layer.open({
+                type : 2,
+                title:'个人信息',
+                area : [ '600px', '400px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/admin/perInfo',
+                end:function(){
+                    location.reload();
+                }
+            });
+        };
+        function openupPass() {
+            layer.open({
+                type : 2,
+                title:'修改密码',
+                area : [ '500px', '300px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/admin/upPass',
+                end:function(){
+
+                }
+            });
+        };
+        function opencopyManagement() {
+            layer.open({
+                type : 2,
+                title:'网站信息管理',
+                area : [ '600px', '400px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/admin/copyManagement',
+                end:function(){
+
+                }
+            });
+        };
+        function douhang(href) {
+            document.getElementById("zt").innerHTML = "";
+            document.getElementById("zt").innerHTML="<iframe src='"+href+"' frameborder='0' class='layadmin-iframe' width='100%' height='100%'></iframe>";
+        };
+    </script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">
+            <img src="../images/怪兽学习 - 副本.png" class="layui-logo"/>
+        </div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="../images/tx.jpg" class="layui-nav-img">
+                    <i th:text="${session.admin.nickname}">我就是个Bug</i>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" onclick="openperInfo()">
+                        <i class="layui-icon layui-icon-set-fill"></i> 基本资料</a>
+                    </dd>
+                    <dd><a href="javascript:;" onclick="openupPass()">
+                        <i class="layui-icon layui-icon-password"></i> 密码设置
+                    </a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="signOut">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;" onclick="douhang('userManagement')">
+                        <i class="layui-icon layui-icon-user"></i> 用户管理
+                    </a>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;" onclick="douhang('classManagement')"><i class="layui-icon layui-icon-templeate-1"></i> 类别管理</a>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a href="javascript:;" onclick="douhang('slideshowManagement')"><i class="layui-icon layui-icon-carousel"></i> 轮播图管理</a>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a href="javascript:;" onclick="opencopyManagement()"><i class="layui-icon layui-icon-website"></i> 网站信息管理</a>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-search"></i> 讨论区管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:void(0);" onclick="douhang('propositionManagement')">论题管理</a></dd>
+                        <dd><a href="javascript:void(0);" onclick="douhang('commentinfoManagement')">评论管理</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-video"></i> 视频管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:void(0);" onclick="douhang('MainVideoManagement')">主视频管理</a></dd>
+                        <dd><a href="javascript:void(0);" onclick="douhang('subvideoManagement')">子视频管理</a></dd>
+                    </dl>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body" id="zt">
+        <!-- 内容主体区域 -->
+
+            <iframe src="WelcomePage" frameborder="0" class="layadmin-iframe" width="100%" height="100%"></iframe>
+
+     </div>
+
+     <div class="layui-footer">
+         <!-- 底部固定区域 -->
+        © autolearn 2020-2021
+    </div>
+
+</div>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        //监听导航点击
+        element.on('nav(demo)', function(elem){
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+</script>
+
+</body>
+</html>

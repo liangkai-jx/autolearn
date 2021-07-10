@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/main.css" />
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script>
+        function slshow(xs,id) {
+
+            if(xs==1){
+                layer.msg('已显示');
+            }else{
+                $.ajax({
+                    async:false,  //同步
+                    type:"post",
+                    url:"slshow",
+                    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    success:function(message){
+                        layer.msg('显示成功');
+                        setTimeout(function(){
+                            location.reload();
+                        },1500);
+                    },
+                    error:function(){
+                        layer.msg('系统维护中！！！！');
+                    }
+                });
+            }
+
+        }
+        function slnoshow(bxs,id) {
+            if(bxs==2){
+                layer.msg('已不显示');
+            }else{
+                $.ajax({
+                    async:false,  //同步
+                    type:"post",
+                    url:"slnoshow",
+                    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                    data:{id:id},
+                    dataType:"json",
+                    success:function(message){
+                        layer.msg('不显示成功');
+                        setTimeout(function(){
+                            location.reload();
+                        },1500);
+
+                    },
+                    error:function(){
+                        layer.msg('系统维护中！！！！');
+                    }
+                });
+            }
+        }
+        function openslideshowAdd() {
+            layer.open({
+                type : 2,
+                title:'添加轮播图',
+                area : [ '400px', '300px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/admin/slideshowAdd',
+                end:function(){
+                    location.reload();
+                }
+            });
+        };
+        function delslideshow(id,slideshowaddress) {
+            $.ajax({
+                async:false,  //同步
+                type:"post",
+                url:"delslideshow",
+                contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                data:{
+                    id:id,
+                    slideshowaddress:slideshowaddress
+                },
+                dataType:"json",
+                success:function(message){
+                    layer.msg('删除成功');
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                },
+                error:function(){
+                    layer.msg('系统维护中！！！！');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<br>
+<div>
+    <ul>
+        <li>
+            &nbsp;<input type="button" class="layui-btn"  value="添加" onclick="openslideshowAdd()"></input>
+        </li>
+    </ul>
+</div><br>
+<div>
+    <table class="table_t" cellpadding="0" cellspacing="0" border="0">
+        <thead>
+        <tr>
+            <th style="border-left: 1px solid #ddd;">轮播图名称</th>
+            <th>轮播图</th>
+            <th>轮播图状态</th>
+            <th>相关操作</th>
+        </tr>
+        </thead>
+        <tbody align="center" id="biuuu_city_list">
+
+        </tbody>
+    </table>
+</div>
+<div id="demo1"class="kaoyan-m"></div>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    //分页
+    var data;
+    $(function(){
+        $.ajax({
+            async:false,  //同步
+            type:"post",
+            url:"slideshowall",
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            dataType:"json",
+            success:function(message){
+                data=message;
+            },
+            error:function(){
+                layer.msg('系统维护中！！！！');
+            }
+        });
+    });
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //总页数大于页码总数
+        laypage.render({
+            elem: 'demo1'
+            ,count: data.length //数据总数
+            ,limit:4
+            ,jump: function(obj){
+                //渲染
+                document.getElementById('biuuu_city_list').innerHTML = function(){
+                    var arr = []
+                        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push('<tr ><td>'+item.slideshowname+'</td><td><img src="'+item.slideshowaddress+'" style="width:200px; height: 100px"></td><td>'+item.slideshowreveal1+'</td><td><button onclick="slshow('+item.slideshowreveal+','+item.id+')" class="layui-btn">显示</button><button onclick="slnoshow('+item.slideshowreveal+','+item.id+')" class="layui-btn">不显示</button><button onclick="delslideshow('+item.id+',\''+item.slideshowaddress+'\')" class="layui-btn">删除</button></td></tr>');
+                    });
+                    return arr.join('');
+                }();
+
+            }
+        });
+    });
+</script>
+</body>
+</html>

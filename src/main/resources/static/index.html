@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="css/index.css" />
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+    <script>
+        function openLogin() {
+            layer.open({
+                type : 2,
+                title:'登录',
+                area : [ '400px', '300px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : 'login.html',
+                end:function(){
+                    location.reload();
+                }
+            });
+        };
+        function openRegister() {
+            layer.open({
+                type : 2,
+                title:'注册',
+                area : [ '400px', '440px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : 'register.html',
+                end:function(){
+                    location.reload();
+                }
+            });
+
+        };
+        //热门课程
+        $(function(){
+            var rmkc=$('#rmkc');
+            var mb="";
+            $.ajax({
+                async:false,  //同步
+                type:"post",
+                url:"tourist/rmkc",
+                contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                dataType:"json",
+                success:function(message) {
+                    for(var i=0;i<message.length;i++){
+                        var t='<li class="seek-margin"><a onclick="openLogin()"><img src="'+message[i].coveraddress+'"></a><h2>'+message[i].mainvideoname+'</h2><p style="width: 300px;overflow: hidden;display: block;white-space: nowrap;text-overflow: ellipsis;">'+message[i].videointroduction+'</p>';
+                        mb=mb+t;
+                    }
+                    rmkc.append(mb);
+                }
+            });
+        });
+        //轮播图
+        $(function(){
+            var lb=$('#lb');
+            var mb="";
+            $.ajax({
+                async:false,  //同步
+                type:"post",
+                url:"tourist/slideshow",
+                contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                dataType:"json",
+                success:function(message) {
+                    for(var i=0;i<message.length;i++){
+                        var t='<div><img src="'+message[i].slideshowaddress+'" style="width: 100%; height: 520px;"></div>';
+                        mb=mb+t;
+                    }
+                    lb.html(mb);
+                }
+            });
+        });
+        //网站信息
+        $(function(){
+            var copy1=$('#copy1');
+            var copy2=$('#copy2');
+            $.ajax({
+                async:false,  //同步
+                type:"post",
+                url:"tourist/copyright",
+                contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                dataType:"json",
+                success:function(message) {
+                    copy1.html(message.copyright);
+                    copy2.text(message.zsInfo);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<!--头部-->
+<div class="header-bg">
+    <!--这里才是真正的头部,跟版心宽度一致-->
+    <div class="header">
+        <!--logo-->
+        <div class="logo">
+            <img src="images/怪兽学习.png" style="width: 300px; height:64px ;">
+        </div>
+        <!--导航-->
+        <ul class="nav">
+            <li class="nav-active">
+                <a href="#">首页</a>
+            </li>
+            <li>
+                <a href="javascript:" onclick="openLogin()">全部课程</a>
+            </li>
+            <li>
+                <a href="javascript:" onclick="openLogin()">学习路线</a>
+            </li>
+            <li>
+                <a href="javascript:" onclick="openLogin()">讨论区</a>
+            </li>
+
+            <li>
+                <form action="tourist/seek" method="post">
+                <div class="layui-inline">
+                    <input type="text" id="antistop" name="antistop" lay-verify="title" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="layui-btn"  value="搜索"></input>
+                </form>
+            </li>
+        </ul>
+        <!--登录注册-->
+        <div class="header-right">
+            <a href="javascript:" onclick="openLogin()" class="login">登录</a>
+            <a href="javascript:" onclick="openRegister()" class="register">注册</a>
+        </div>
+    </div>
+</div>
+<div class="layui-carousel" id="test10">
+    <div carousel-item="" id="lb">
+
+    </div>
+</div>
+
+<!--考研通关-->
+<div class="kaoyan">
+    <!--这个title几大版块要共用的-->
+    <div class="title">
+        <h1>热门课程</h1>
+        <p>科学高效化的学习计划</p>
+    </div>
+    <!--中间部份-->
+    <div class="kaoyan-m">
+        <ul id="rmkc">
+        </ul>
+    </div>
+</div>
+<!--底部-->
+<div class="footer-bg">
+    <div class="footer">
+        <ul>
+            <li>
+                <h2>新手入门</h2></li>
+            <li>
+                <a href="javascript:">新用户注册</a>
+            </li>
+            <li>
+                <a href="javascript:">用户登录</a>
+            </li>
+            <li>
+                <a href="javascript:">找回密码</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h2>关于我们</h2></li>
+            <li>
+                <a href="javascript:">专业团队</a>
+            </li>
+            <li>
+                <a href="javascript:">视频下载</a>
+            </li>
+            <li>
+                <a href="javascript:">合作企业</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h2>资源下载</h2></li>
+            <li>
+                <a href="javascript:">视频下载</a>
+            </li>
+            <li>
+                <a href="javascript:">资料下载</a>
+            </li>
+            <li>
+                <a href="javascript:">工具下载</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h2>联系我们</h2></li>
+            <li>
+                <a href="javascript:">加入我们</a>
+            </li>
+            <li>
+                <a href="javascript:">联系方式</a>
+            </li>
+            <li>
+                <a href="javascript">如何互动</a>
+            </li>
+        </ul>
+        <ul>
+
+            <div class="footer-logo">
+                <!--底部logo-->
+                <div class="footer-logo-img">
+                    <a href="javascript:"><img src="images/怪兽学习 - 副本.png" /></a>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+<!--版权-->
+<div class="copy">
+    <p id="copy1"></p>
+    <p id="copy2"></p>
+</div>
+
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        //监听导航点击
+        element.on('nav(demo)', function(elem){
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+
+    layui.use(['carousel', 'form'], function(){
+        var carousel = layui.carousel
+            ,form = layui.form;
+        //图片轮播
+        carousel.render({
+            elem: '#test10'
+            ,width: '100%'
+            ,height: '520px'
+            ,interval: 5000
+        });
+
+        //事件
+        carousel.on('change(test4)', function(res){
+            console.log(res)
+        });
+
+        var $ = layui.$, active = {
+            set: function(othis){
+                var THIS = 'layui-bg-normal'
+                    ,key = othis.data('key')
+                    ,options = {};
+
+                othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                options[key] = othis.data('value');
+                ins3.reload(options);
+            }
+        };
+
+        //监听开关
+        form.on('switch(autoplay)', function(){
+            ins3.reload({
+                autoplay: this.checked
+            });
+        });
+
+        $('.demoSet').on('keyup', function(){
+            var value = this.value
+                ,options = {};
+            if(!/^\d+$/.test(value)) return;
+
+            options[this.name] = value;
+            ins3.reload(options);
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>视频播放器</title>
+	<link rel="stylesheet" href="../css/video.css" />
+	<link rel="stylesheet" href="../css/video1.css" />
+	<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+	<script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+</head>
+<body>
+
+<div class="wrap">
+	<div>
+		<a th:href="'detailpage?videoid='+${videoid}" class="layui-btn">返回课程</a>
+		<p th:text="${videoaddress}" style="display:none" id="videoaddress"></p>
+	</div>
+	<div class="msw-video" id="js_MswVideo">
+		<div class="vid-box">
+			<video class="video-tag" >
+				<p>您的浏览器不支持该视频播放器，请下载较新的浏览器重试</p>
+			</video>
+		</div>
+		<div class="vid-hd">
+			<h3 class="vid-tt" th:text="${mainvideoname}+'详解'">事件代理机制详解</h3>
+		</div>
+		<div class="control-bar">
+			<div class="progress-bar">
+				<div class="play-progress">
+					<span class="round"></span>
+				</div>
+				<div class="preload-progress"></div>
+			</div>
+			<div class="play-btn-area">
+				<a href="javascript:;" class="play-btn">
+					<img src="/images/icon1.png" class="play-img" />
+				</a>
+			</div>
+			<div class="time-area">
+				<span class="current-time">00:00:00</span> / <span class="duration">00:00:00</span>
+			</div>
+			<div class="fullscreen-area">
+				<a href="javascript:;" class="fullscreen-btn">
+					<img src="/images/icon5.png" class="fullscreen-img" />
+				</a>
+			</div>
+			<div class="volume-area">
+				<a href="javascript:;" class="volume-btn">
+					<img src="/images/icon4.png" class="volume-img" />
+				</a>
+				<div class="volume-bar">
+                        <span class="slide-bar">
+                            <span class="volume-slide">
+                                <span class="round"></span>
+                            </span>
+                        </span>
+				</div>
+			</div>
+			<div class="playrate-area">
+				<a href="javascript:;" class="playrate">倍速</a>
+				<ul class="playrate-list">
+					<li class="item"><a href="javascript:;" class="rate-btn" data-rate="0.5">0.5x</a></li>
+					<li class="item"><a href="javascript:;" class="rate-btn current" data-rate="1.0">1.0x</a></li>
+					<li class="item"><a href="javascript:;" class="rate-btn" data-rate="1.25">1.25x</a></li>
+					<li class="item"><a href="javascript:;" class="rate-btn" data-rate="1.5">1.5x</a></li>
+					<li class="item"><a href="javascript:;" class="rate-btn" data-rate="2.0">2.0x</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="../js/video.js"></script>
+<script type="text/javascript">
+
+	var srcvideo=document.getElementById('videoaddress').innerHTML;
+    var mswVideo = new MswVideo('js_MswVideo', {
+        src: srcvideo,
+        autoplay: true,
+        preload: true,
+        loop: true,
+        volume: 50
+    });
+</script>
+</body>
+</html>
+

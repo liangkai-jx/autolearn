@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子视频信息修改</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script src="../layui/layui.js" charset="utf-8"></script>
+    <script>
+        function updasubvideo() {
+            if($('#subvideoname').val()==""){
+                layer.msg('视频名称不为空');
+            }else{
+                $.ajax({
+                    async:false,  //同步
+                    type:"post",
+                    url:"updasubvideo",
+                    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                    data:$('#subvideoinfobean').serialize(),
+                    dataType:"json",
+                    success:function(message){
+                        layer.msg('修改成功');
+                        setTimeout(function(){
+                            location.reload();
+                        },1500);
+                    },
+                    error:function(){
+                        layer.msg('系统维护中！！！！');
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body><br>
+<form id="subvideoinfobean">
+    <input type="hidden" id="id" name="id" th:value="${subvideo.id}"><br>
+    <p>&nbsp;&nbsp;视频名称：</p>
+    <input type="text" id="subvideoname" name="subvideoname" class="layui-input" th:value="${subvideo.subvideoname}"><br><br>
+</form>
+<div align="center">
+    <button class="layui-btn" onclick="updasubvideo()">修改</button>
+</div>
+
+</body>
+</html>

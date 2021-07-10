@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发表论题</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="../layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script>
+        layui.use('layedit', function(){
+            var layedit = layui.layedit
+                ,$ = layui.jquery;
+            //图片上传且在创建编辑器的前面
+            layedit.set({
+                uploadImage: {
+                    url: '/user/uploadconimage' //接口url
+                    ,type: 'post' //默认post
+                }
+            });
+            var index=layedit.build('demo', {
+                tool: ['strong' , 'italic', 'underline','left', 'center','right','image'],//自定义编辑
+                height: 400//设置编辑器高度
+            }); //建立编辑器
+            //给富文本赋值
+            //var broy=$('#wz').val();
+            //layedit.setContent(index,broy);
+
+            //编辑器外部操作
+            var active = {
+                content: function(){
+                    //alert(layedit.getContent(index)); //获取编辑器内容
+                    $.ajax({
+                        async:false,  //同步
+                        type:"post",
+                        url:"/user/addpropositioninfo",
+                        contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                        data:{'propositionname':$("#propositionname").val(),
+                            'author':$("#author").val(),
+                            'account':$("#account").val(),
+                            'propositioncontent':layedit.getContent(index)
+                        },
+                        dataType:"json",
+                        success:function(message){
+                            if(message == 1){
+                                layer.msg("发表成功");
+                                $("#propositionname").val("");
+                                $("#author").val("");
+                                layedit.setContent(index,"");
+                            }else {
+                                layer.msg("发表失败！！");
+                            }
+                        },
+                        error:function(){
+                            layer.msg("系统维护中！！！");
+                        }
+                    });
+
+                }
+                ,text: function(){
+                    alert(layedit.getText(index)); //获取编辑器纯文本内容
+                }
+                ,selection: function(){
+                    alert(layedit.getSelection(index));
+                }
+            };
+
+            $('.site-demo-layedit').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+    </script>
+</head>
+<body>
+    <div style="width: 200px;margin: 10px" >
+        <input type="text" name="propositionname" id="propositionname" placeholder="论题" class="layui-input">
+    </div>
+    <div style="width: 200px;margin: 10px">
+        <input type="hidden" name="account" id="account" th:value="${session.user.account}">
+        <input type="text" id="author" name="author" placeholder="作者"  class="layui-input">
+    </div>
+    <div style="width:1400px; height: 500px;margin: 0 auto;overflow:auto;" align="center">
+        <textarea id="demo" style="display: none;"></textarea>
+        <button class="layui-btn site-demo-layedit" data-type="content">发表</button>
+    </div>
+</body>
+</html>

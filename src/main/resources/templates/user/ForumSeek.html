@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>论题搜索</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../css/index.css" />
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script>
+        function openperInfo() {
+            layer.open({
+                type : 2,
+                title:'个人信息',
+                area : [ '600px', '400px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/user/perInfo',
+                end:function(){
+                    location.reload();
+                }
+            });
+        };
+        function openupPass() {
+            layer.open({
+                type : 2,
+                title:'修改密码',
+                area : [ '500px', '300px' ],
+                shadeClose : true, //点击遮罩关闭
+                content : '/user/upPass',
+                end:function(){
+                    location.reload();
+                }
+            });
+        };
+        function signOut() {
+            $.ajax({
+                async:false,  //同步
+                type:"post",
+                url:"signOut",
+                contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                dataType:"json",
+                success:function(message){
+                    if(message == 1){
+                        window.parent.location.href="/";
+                    }
+                    else {
+                        layer.msg('失败');
+                    }
+                },
+                error:function(){
+                    layer.msg('系统维护中！！！！');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<!--头部-->
+<div class="header-bg">
+    <!--这里才是真正的头部,跟版心宽度一致-->
+    <div class="header">
+        <!--logo-->
+        <div class="logo">
+            <img src="../images/怪兽学习.png" style="width: 300px; height:64px ;">
+        </div>
+        <!--导航-->
+        <ul class="nav">
+            <li class="nav-active">
+                <a href="userMain">首页</a>
+            </li>
+            <li>
+                <a href="allCourses?classid=0&classname=全部">全部课程</a>
+            </li>
+            <li>
+                <a href="thought">学习路线</a>
+            </li>
+            <li>
+                <a href="Forum">讨论区</a>
+            </li>
+            <li>
+                <form action="Useek" method="post">
+                    <div class="layui-inline">
+                        <input type="text" id="antistop" name="antistop" lay-verify="title" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                    </div>
+                    <input type="submit" class="layui-btn"  value="搜索"></input>
+                </form>
+            </li>
+            <li th:text="'欢迎：'+${session.user.nickname}"> </li>
+        </ul>
+
+        <!--个人中心-->
+        <div class="header-right" style="line-height: 64px;">
+            <ul class="layui-nav">
+                <li class="layui-nav-item">
+                    <a href="javascript:;" style="width: 60px;">个人中心</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" onclick="openperInfo()">个人信息</a></dd>
+                        <dd><a th:href="'learnTasks?account='+${session.user.account}">学习任务</a></dd>
+                        <dd><a href="#" onclick="openupPass()">修改密码</a></dd>
+                        <dd><a href="#" onclick="signOut()">退出</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--版心-->
+<div class="kaoyan">
+    <!--中间部份-->
+    <div class="allCourses">
+        <p id="qw">为您找到0条数据</p>
+        <input type="hidden" id="ForAntistop" th:value="${ForAntistop}">
+        <div class="allf2" id="allf2">
+            <div class="alllb">
+                <a href="">
+                    <ul>
+                        <li >
+                            <h3>论题：关于Java我们需要学习什么知识</h3>
+                        </li>
+                        <li >
+                            <h3>作者：李小凡</h3>
+                        </li>
+                        <li >
+                            <h3>发表时间：2021-4-29</h3>
+                        </li>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="demo1"class="kaoyan-m"></div>
+</div>
+
+<!--底部-->
+<div class="footer-bg">
+    <div class="footer">
+        <ul>
+            <li>
+                <h2>新手入门</h2></li>
+            <li>
+                <a href="javascript:">新用户注册</a>
+            </li>
+            <li>
+                <a href="javascript:">用户登录</a>
+            </li>
+            <li>
+                <a href="javascript:">找回密码</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h2>关于我们</h2></li>
+            <li>
+                <a href="javascript:">专业团队</a>
+            </li>
+            <li>
+                <a href="javascript:">视频下载</a>
+            </li>
+            <li>
+                <a href="javascript:">合作企业</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h2>资源下载</h2></li>
+            <li>
+                <a href="javascript:">视频下载</a>
+            </li>
+            <li>
+                <a href="javascript:">资料下载</a>
+            </li>
+            <li>
+                <a href="javascript:">工具下载</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h2>联系我们</h2></li>
+            <li>
+                <a href="javascript:">加入我们</a>
+            </li>
+            <li>
+                <a href="javascript:">联系方式</a>
+            </li>
+            <li>
+                <a href="javascript">如何互动</a>
+            </li>
+        </ul>
+        <ul>
+
+            <div class="footer-logo">
+                <!--底部logo-->
+                <div class="footer-logo-img">
+                    <a href="javascript:"><img src="../images/怪兽学习%20-%20副本.png" /></a>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+<!--版权-->
+<div class="copy">
+    <p th:utext="${copy.copyright}"></p>
+    <p th:text="${copy.zsInfo}"></p>
+</div>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        //监听导航点击
+        element.on('nav(demo)', function(elem){
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+    layui.use(['carousel', 'form'], function(){
+        var carousel = layui.carousel
+            ,form = layui.form;
+        //图片轮播
+        carousel.render({
+            elem: '#test10'
+            ,width: '100%'
+            ,height: '520px'
+            ,interval: 5000
+        });
+        //事件
+        carousel.on('change(test4)', function(res){
+            console.log(res)
+        });
+        var $ = layui.$, active = {
+            set: function(othis){
+                var THIS = 'layui-bg-normal'
+                    ,key = othis.data('key')
+                    ,options = {};
+                othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                options[key] = othis.data('value');
+                ins3.reload(options);
+            }
+        };
+        //监听开关
+        form.on('switch(autoplay)', function(){
+            ins3.reload({
+                autoplay: this.checked
+            });
+        });
+        $('.demoSet').on('keyup', function(){
+            var value = this.value
+                ,options = {};
+            if(!/^\d+$/.test(value)) return;
+
+            options[this.name] = value;
+            ins3.reload(options);
+        });
+    });
+
+    //分页
+    var data;
+    $(function(){
+        $.ajax({
+            async:false,  //同步
+            type:"post",
+            url:"AzxForum",
+            data:{"ForAntistop":$("#ForAntistop").val()},
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            dataType:"json",
+            success:function(message){
+                data=message;
+                $('#qw').text('为您找到'+data.length+'条数据');
+            },
+            error:function(){
+                layer.msg('系统维护中！！！！');
+            }
+        });
+
+
+    });
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //总页数大于页码总数
+        laypage.render({
+            elem: 'demo1'
+            ,count: data.length //数据总数
+            ,limit:8
+            ,jump: function(obj){
+                //渲染
+                document.getElementById('allf2').innerHTML = function(){
+                    var arr = []
+                        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push('<div class="alllb"> <a href="showProposition?id='+item.id+'"> <ul> <li > <h3>论题：'+item.propositionname+'</h3> </li> <li > <h3>作者：'+item.author+'</h3> </li> <li > <h3>发表时间：'+item.publishtime1+'</h3> </li> </ul> </a> </div> ');
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+    });
+</script>
+</body>
+</html>

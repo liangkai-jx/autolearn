@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script>
+        $(function(){
+            $("#login").click(function(){
+                var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+                if($('#account').val()==""){
+                    layer.msg('账号不为空');
+                }
+                else if($('#password').val()==""){
+                    layer.msg('密码不为空');
+                }
+                else if(!reg_tel.test($('#account').val())){
+                    layer.msg('账号格式不对（手机号）');
+                }
+                else{
+                    $.ajax({
+                        async:false,  //同步
+                        type:"post",
+                        url:"user/login",
+                        contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                        data:$("#loginbean").serialize(),
+                        dataType:"json",
+                        success:function(message){
+                            if(message == 1){
+                                window.parent.location.href="/user/userMain";
+                                // 先获取窗口索引，才能关闭窗口
+                                window.parent.addPersonalCenter();
+                                // 先获取窗口索引，才能关闭窗口
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+
+                            }else if(message==2){
+                                layer.msg('账号被冻结联系管理员');
+                            }
+                            else {
+                                layer.msg('账号或密码错误');
+                            }
+                        },
+                        error:function(){
+                            layer.msg('系统维护中！！！！');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div align="center">
+    <form id="loginbean"><br><br>
+        账号：<input type="text" id="account" name="account" placeholder="请输入手机号码"><br><br>
+        密码：<input type="password" id="password" name="password" ><br><br>
+        <input type="button" value="登录" id="login" class="layui-btn"><br /><br/>
+        <a href="#" style="color: black;">忘记密码</a>
+    </form>
+</div>
+</body>
+</html>

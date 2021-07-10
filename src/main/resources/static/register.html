@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+		<link rel="stylesheet" href="css/main.css" />
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="layui/layui.js"></script>
+		<script>
+            $(function(){
+                $("#register").click(function(){
+                    var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+                    var mail=/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                    if($('#account').val()==""){
+                        layer.msg('账号不为空');
+                    }
+                    else if($('#password').val()==""){
+                        layer.msg('密码不为空');
+                    }
+                    else if($('#password1').val()==""){
+                        layer.msg('确认密码不为空');
+                    }
+                    else if($('#age').val()==""){
+                        layer.msg('年龄不为空');
+                    }
+                    else if($('#nickname').val()==""){
+                        layer.msg('昵称不为空');
+                    }
+                    else if($('#mailbox').val()==""){
+                        layer.msg('邮箱不为空');
+                    }
+                    else if(!reg_tel.test($('#account').val())){
+                        layer.msg('账号格式不对（手机号）');
+                    }
+                    else if(!mail.test($('#mailbox').val())){
+                        layer.msg('邮箱格式不对');
+                    }
+                    else{
+                        $.ajax({
+                            async:false,  //同步
+                            type:"post",
+                            url:"tourist/register",
+                            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                            data:$("#registerbean").serialize(),
+                            dataType:"json",
+                            success:function(message){
+                                if(message == 3){
+                                    layer.msg('注册成功,请登录');
+                                    setTimeout(function(){
+                                        var index = parent.layer.getFrameIndex(window.name);
+                                        parent.layer.close(index);
+                                    },1500);
+                                    // 先获取窗口索引，才能关闭窗口
+                                }else if(message == 2) {
+                                    layer.msg('邮箱被使用');
+                                }else{
+                                    layer.msg('账号被注册');
+								}
+                            },
+                            error:function(){
+                                layer.msg('系统维护中！！！！');
+                            }
+                        });
+					}
+
+                });
+            });
+		</script>
+	</head>
+	<body>
+		<div align="center">
+			<form id="registerbean"><br>
+			<table>
+				<tr>
+					<td>手机号码：</td>
+					<td><input type="text" id="account"  name="account"></td>
+				</tr>
+				<tr>
+					<td>设置密码：</td>
+					<td><input type="password" id="password"  name="password"></td>
+				</tr>
+				<tr>
+					<td>确认密码：</td>
+					<td><input type="password" id="password1"  name="password1"></td>
+				</tr>
+				<tr>
+					<td align="right"> 性别：</td>
+					<td>
+						男<input type="radio" name="sex" id="sex1" value="1"  checked="checked"/>
+						女<input type="radio" name="sex" id="sex2" value="2" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">年龄：</td>
+					<td><input type="text" id="age"  name="age"></td>
+				</tr>
+				<tr>
+					<td align="right">昵称：</td>
+					<td><input type="text" id="nickname"  name="nickname"></td>
+				</tr>
+				<tr>
+					<td align="right">邮箱：</td>
+					<td><input type="text" id="mailbox" name="mailbox"></td>
+				</tr>
+				</table>
+			    <input type="hidden" id="jurisdiction" name="jurisdiction" value="2">
+			</form>
+	    </div><br><br>
+	    <div align="center">
+			<input type="button" value="注册" id="register" class="layui-btn">
+	    </div>
+	</body>
+</html>

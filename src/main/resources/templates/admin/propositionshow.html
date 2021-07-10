@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>论题显示</title>
+    <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body>
+<div align="center">
+    <h2 th:text="${proposition.propositionname}">论题：关于Java我们需要学习什么知识</h2>
+    <p th:text="'作者：'+${proposition.author}+'&nbsp;&nbsp;发表时间：'+${proposition.publishtime1}">作者：李小凡&nbsp;&nbsp;发表时间：2021-4-29</p>
+</div>
+<div class="adminshow" th:utext="${proposition.propositioncontent}" >xxxxxxxx</div>
+<div style="border-top:1px dashed  #919191; ">
+    <h3>评论区</h3>
+</div>
+<div  th:each="list:${comment}">
+    <p th:text="'昵称：'+${list.nickname}+'&nbsp;&nbsp;发表时间：'+${list.commenttime1}">昵称:xx 时间:2021-07-12</p>
+    <p th:utext="${list.comment}">内容<p>
+</div>
+<div  th:if="${ #lists.isEmpty(comment)}">
+    <p >暂无评论！欢迎留言<p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主视频添加</title>
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../css/main.css" />
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+    <script src="../layui/layui.js" charset="utf-8"></script>
+    <script>
+        function addMainVideo() {
+            if($('#mainvideoname').val()==""||$('#file').val()==""||$('#videointroduction').val()==""||$('#classb').val()==""){
+                layer.msg('名称或文件不为空');
+            }else{
+                var files = $('#file').prop('files');
+                var data = new FormData();
+                data.append('file', files[0]);
+                $.ajax({
+                    async:false,  //同步
+                    type:"post",
+                    url:"addMainVideo?mainvideoname="+$('#mainvideoname').val()+"&videointroduction="+$('#videointroduction').val()+"&classid="+$('#classb').val(),
+                    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+                    data: data,
+                    contentType : false,
+                    processData : false,
+                    dataType:"json",
+                    success:function(message){
+                        layer.msg('添加成功');
+                        setTimeout(function(){
+                            location.reload();
+                        },1500);
+                    },
+                    error:function(){
+                        layer.msg('系统维护中！！！！');
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+<div >
+    <br>
+    &nbsp;&nbsp;&nbsp;主视频类别：
+    <select id="classb" class="layui-select">
+        <option value="">请选择类别</option>
+    </select>
+    <br><br>
+    &nbsp;&nbsp;&nbsp;主视频名称：
+    <input type="text" id="mainvideoname" name="mainvideoname" placeholder="请输入名称"><br><br>
+    &nbsp;&nbsp;&nbsp;主视频封面：
+    <input type="file" name="file" id="file" ><br><br>
+    &nbsp;&nbsp;&nbsp;主视频简介：
+    <textarea placeholder="请输入内容" class="layui-textarea" id="videointroduction" name="videointroduction"></textarea>
+</div>
+<div align="center"><br><br>
+    <input type="button" value="提交" class="layui-btn" onclick="addMainVideo()">
+</div>
+<script>
+    $(function(){
+        var selector=$("#classb");
+        $.ajax({
+            async:false,  //同步
+            type:"post",
+            url:"getclassinfo",
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            dataType:"json",
+            success:function(message){
+               for(i=0;i<message.length;i++){
+                   selector.append("<option value='"+message[i].id+"'>"+message[i].classname+"</option>");
+               }
+            },
+            error:function(){
+                layer.msg('系统维护中！！！！');
+            }
+        });
+    });
+</script>
+</body>
+</html>
